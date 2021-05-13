@@ -19,7 +19,7 @@ class TodoController extends Controller
      */
     public function index(Request $request, Goal $goal)
     {
-        $todos = $goal->todos()->with('tags')->orderBy('done', 'asc')->orderBy('position', 'ask')->get;
+        $todos = $goal->todos()->with('tags')->orderBy('done', 'asc')->orderBy('position', 'ask')->get();
         return response()->json($todos);
     }
 
@@ -38,7 +38,7 @@ class TodoController extends Controller
         $todo->position = request('position');
         $todo->done = false;
         $todo->save();
-        $todos = $goal->todos()->with('tags')->orderBy('done', 'asc')->orderBy('position', 'asc')->gat();
+        $todos = $goal->todos()->with('tags')->orderBy('done', 'asc')->orderBy('position', 'asc')->get();
 
         return response()->json($todos);
     }
@@ -80,7 +80,7 @@ class TodoController extends Controller
     public function sort(Request $request, Goal $goal, Todo $todo)
     {
         $exchangeTodo = Todo::where('position', request('sortId'))->first();
-        $lastTodo = Todo::where('position', request('sortId'))->latest('position')->fitst();
+        $lastTodo = Todo::where('position', request('sortId'))->latest('position')->first();
 
         if (request('sortId') == 0) {
             $todo->moveBefore($exchangeTodo);
